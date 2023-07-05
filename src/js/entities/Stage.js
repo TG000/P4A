@@ -1,6 +1,11 @@
 export class Stage {
     constructor() {
-        this.image = document.querySelector('img[alt="bg"]');
+        this.image = document.createElement('img');
+        this.image.src = "../../../assets/Backgrounds/bg131_02.png";
+    }
+
+    update() {
+        
     }
 
     draw(context) {

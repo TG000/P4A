@@ -1,0 +1,15 @@
+----Basic----
+[ ✔ ] HTML, CSS, JS setup               ---->  Learning canvas, jquery, how animation works, watching YTB tutorials
+[ ✔ ] Download assets                   ---->  "spriters-resource.com" - "craftpix.net" - "itch.io/game-assets"
+
+[ ✔ ] Adding player assets into canvas  ---->  Anchor point [ Get ✔ ]
+[ ✔ ] Player movement                   ---->  Flickering image [ Fixed ✔ ]
+[ ✔ ] Player control input              ---->  Input overlaying [ Fixed ✔ ]
+
+[ ✔ ] Animation
+[  ] Box collision
+[  ] Attact / hurt state
+
+[  ] GUI
+[  ] Music & Sound Effects
+[  ] Combo Skills
