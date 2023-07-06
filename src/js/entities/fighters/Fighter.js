@@ -1,4 +1,4 @@
-import { FighterDirection, FighterState } from "../../constants/fighter.js";
+import { FighterDirection, FighterState, FrameDelay, PUSH_FRICTION } from "../../constants/fighter.js";
 import { STAGE_FLOOR } from "../../constants/stage.js";
 import * as control from "../../InputHandler.js";
 import { rectsOverlap } from "../../utils/collisions.js";
@@ -116,13 +116,19 @@ export class Fighter {
         this.changeState(FighterState.IDLE);
     }
 
+    isAnimationCompleted = () => this.animations[this.currentState][this.animationFrame][1] === FrameDelay.TRANSITION;
+
     hasCollideWithOpponent = () => rectsOverlap (
         this.position.x + this.pushBox.x, this.position.y + this.pushBox.y,
         this.pushBox.width, this.pushBox.height,
-        this.opponent.position.x + this.opponent.pushBox.x,
-        this.opponent.position.y + this.opponent.pushBox.y,
-        this.opponent.pushBox.width, this.opponent.pushBox.height,
+        this.opponent.position.x + this.opponent.pushBox.x, this.opponent.position.y + this.opponent.pushBox.y,
+        this.opponent.pushBox.width, this.opponent.pushBox.height
     );
+
+    resetVelocities() {
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+    }
 
     getDirection() {
         if (this.position.x + this.pushBox.x + this.pushBox.width <= this.opponent.position.x + this.opponent.pushBox.x) {
@@ -153,8 +159,7 @@ export class Fighter {
     }
 
     handleIdleInit() {
-        this.velocity.x = 0;
-        this.velocity.y = 0;
+        this.resetVelocities();
     }
 
     handleMoveInit() {
@@ -167,28 +172,28 @@ export class Fighter {
     }
 
     handleCrouchDownInit() {
-        this.handleIdleInit();
+        this.resetVelocities();
     }
 
     handleJumpStartInit() {
-        this.handleIdleInit();
+        this.resetVelocities();
     }
 
     handleJumpEndInit() {
-        this.handleIdleInit();
+        this.resetVelocities();
     }
 
     handleIdleState() {
         if (control.isUp(this.playerId)) {
             this.changeState(FighterState.JUMP_START);
         }
-        if (control.isDown(this.playerId)) {
+        else if (control.isDown(this.playerId)) {
             this.changeState(FighterState.CROUCH_DOWN);
         }
-        if (control.isBackward(this.playerId, this.direction)) {
+        else if (control.isBackward(this.playerId, this.direction)) {
             this.changeState(FighterState.WALK_BACKWARD);
         }
-        if (control.isForward(this.playerId, this.direction)) {
+        else if (control.isForward(this.playerId, this.direction)) {
             this.changeState(FighterState.WALK_FORWARD);
         }
 
@@ -204,10 +209,10 @@ export class Fighter {
         if (!control.isForward(this.playerId, this.direction)) {
             this.changeState(FighterState.IDLE);
         }
-        if (control.isUp(this.playerId)) {
+        else if (control.isUp(this.playerId)) {
             this.changeState(FighterState.JUMP_START);
         }
-        if (control.isDown(this.playerId)) {
+        else if (control.isDown(this.playerId)) {
             this.changeState(FighterState.CROUCH_DOWN);
         }
 
@@ -218,10 +223,10 @@ export class Fighter {
         if (!control.isBackward(this.playerId, this.direction)) {
             this.changeState(FighterState.IDLE);
         }
-        if (control.isUp(this.playerId)) {
+        else if (control.isUp(this.playerId)) {
             this.changeState(FighterState.JUMP_START);
         }
-        if (control.isDown(this.playerId)) {
+        else if (control.isDown(this.playerId)) {
             this.changeState(FighterState.CROUCH_DOWN);
         }
 
@@ -229,19 +234,24 @@ export class Fighter {
     }
 
     handleCrouchDownState() {
-        if (this.animations[this.currentState][this.animationFrame][1] === -2) {
+        if (this.isAnimationCompleted()) {
             this.changeState(FighterState.CROUCH);
+        }
+
+        if (!control.isDown(this.playerId)) {
+            this.currentState = FighterState.CROUCH_UP;
+            this.animationFrame = this.animations[FighterState.CROUCH_UP][this.animationFrame].length - this.animationFrame;
         }
     }
 
     handleCrouchUpState() {
-        if (this.animations[this.currentState][this.animationFrame][1] === -2) {
+        if (this.isAnimationCompleted()) {
             this.changeState(FighterState.IDLE);
         }
     }
 
     handleJumpStartState() {
-        if (this.animations[this.currentState][this.animationFrame][1] === -2) {
+        if (this.isAnimationCompleted()) {
             if (control.isBackward(this.playerId, this.direction)) {
                 this.changeState(FighterState.JUMP_BACKWARD);
             }
@@ -274,7 +284,7 @@ export class Fighter {
                 newState = FighterState.IDLE_TURN;
             }
             else {
-                if (this.animations[this.currentState][this.animationFrame][1] !== -2) {
+                if (!this.isAnimationCompleted()) {
                     return;
                 }
             }
@@ -308,7 +318,7 @@ export class Fighter {
     handleIdleTurnState() {
         this.handleIdleState();
 
-        if (this.animations[this.currentState][this.animationFrame][1] !== -2) {
+        if (!this.isAnimationCompleted()) {
             return;
         }
 
@@ -318,7 +328,7 @@ export class Fighter {
     handleCrouchTurnState() {
         this.handleCrouchState();
 
-        if (this.animations[this.currentState][this.animationFrame][1] !== -2) {
+        if (!this.isAnimationCompleted()) {
             return;
         }
 
@@ -334,36 +344,41 @@ export class Fighter {
             this.position.x = this.pushBox.width;
         }
 
-        // if (this.hasCollideWithOpponent()) {
-        //     if (this.position.x <= this.opponent.position.x) {
-        //         this.position.x = Math.max(
-        //             (this.opponent.position.x + this.opponent.pushBox.x) - (this.pushBox.x + this.pushBox.width),
-        //             this.pushBox.width
-        //         );
+        if (this.hasCollideWithOpponent()) {
+            // Collide from Left to Right
+            if (this.position.x < this.opponent.position.x) {
+                this.position.x = this.opponent.position.x - this.pushBox.width;
 
-        //         // if ([
-        //         //     FighterState.IDLE, FighterState.CROUCH, FighterState.JUMP_UP,
-        //         //     FighterState.JUMP_FORWARD, FighterState.JUMP_BACKWARD
-        //         // ].includes(this.opponent.currentState)) {
-        //         //     this.opponent.position.x += 166 * time.secondsPassed;
-        //         // }
-        //     }
+                if ([
+                    FighterState.IDLE, FighterState.CROUCH, FighterState.JUMP_UP,
+                    FighterState.JUMP_FORWARD, FighterState.JUMP_BACKWARD
+                ].includes(this.opponent.currentState)) {
+                    this.opponent.position.x += PUSH_FRICTION * time.secondsPassed;
+                }
+            }
 
-        //     if (this.position.x >= this.opponent.position.x) {
-        //         this.position.x = Math.min(
-        //             (this.opponent.position.x + this.opponent.pushBox.x + this.opponent.pushBox.width) 
-        //             + (this.pushBox.x + this.pushBox.width),
-        //             context.canvas.width - this.pushBox.width
-        //         );
+            // Collide at the screen's limits
+            if (this.position.x == this.opponent.position.x) {
+                if (this.position.x == this.pushBox.width) { // Left
+                    this.opponent.position.x = this.position.x + this.pushBox.width; 
+                }
+                if (this.position.x == context.canvas.width - this.pushBox.width) { // Right
+                    this.opponent.position.x = this.position.x - this.pushBox.width;
+                }
+            }
 
-        //         // if ([
-        //         //     FighterState.IDLE, FighterState.CROUCH, FighterState.JUMP_UP,
-        //         //     FighterState.JUMP_FORWARD, FighterState.JUMP_BACKWARD
-        //         // ].includes(this.opponent.currentState)) {
-        //         //     this.opponent.position.x -= 166 * time.secondsPassed;
-        //         // }
-        //     }
-        // }
+            // Collide from Right to Left
+            if (this.position.x > this.opponent.position.x) { 
+                this.position.x = this.opponent.position.x + this.pushBox.width;
+
+                if ([
+                    FighterState.IDLE, FighterState.CROUCH, FighterState.JUMP_UP,
+                    FighterState.JUMP_FORWARD, FighterState.JUMP_BACKWARD
+                ].includes(this.opponent.currentState)) {
+                    this.opponent.position.x -= PUSH_FRICTION * time.secondsPassed;
+                }
+            }
+        }
     }
 
     updateAnimation(time) {
@@ -373,7 +388,7 @@ export class Fighter {
         if (time.previous > this.animationTimer + frameDelay) {
             this.animationTimer = time.previous;
     
-            if (frameDelay > 0) {
+            if (frameDelay > FrameDelay.FREEZE) {
                 this.animationFrame++;
                 this.pushBox = this.getPushBox(frameKey);
             }
@@ -399,6 +414,7 @@ export class Fighter {
     drawDebug(context) {
         const [frameKey] = this.animations[this.currentState][this.animationFrame];
         const pushBox = this.getPushBox(frameKey);
+        const [[, [originX, originY]]] = this.frames.get(frameKey);
 
         context.lineWidth = 1;
 
@@ -428,6 +444,20 @@ export class Fighter {
         context.moveTo(this.position.x, this.position.y - 5);
         context.lineTo(this.position.x, this.position.y + 4);
         context.stroke();
+
+        // Sprite image
+        // context.beginPath();
+        // context.strokeStyle = 'blue';
+        // context.fillRect(
+        //     this.position.x - originX, this.position.y - originY,
+        //     this.image.width, this.image.height
+
+        // );
+        // context.rect(
+        //     this.position.x - originX, this.position.y - originY,
+        //     this.image.width, this.image.height
+        // );
+        // context.stroke();
     }
     
     draw(context) {

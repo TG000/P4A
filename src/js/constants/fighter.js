@@ -1,3 +1,5 @@
+export const PUSH_FRICTION = 250;
+
 export const FighterDirection = {
     LEFT: -1,
     RIGHT: 1
@@ -17,6 +19,11 @@ export const FighterState = {
     CROUCH_DOWN: 'crouchDown',
     IDLE_TURN: 'idleTurn',
     CROUCH_TURN: 'crouchTurn'
+};
+
+export const FrameDelay = {
+    FREEZE: 0,
+    TRANSITION: -1
 };
 
 export const PushBox = {
