@@ -7,7 +7,7 @@ export class Aigis extends Fighter {
 
         // First frame
         this.image = document.createElement('img');
-        this.image.src = "../../../assets/Player/Aigis/ag000_00.png";
+        this.image.src = "assets/Player/Aigis/ag000_00.png";
 
         this.idle = [];
         this.forwards = [];
@@ -23,67 +23,67 @@ export class Aigis extends Fighter {
         // Idle animation holders
         for (var i = 0; i < 10; i++) {
             this.idle[i] = new Image();
-            this.idle[i].src = '../../../assets/Player/Aigis/ag000_0' + i + '.png';
+            this.idle[i].src = 'assets/Player/Aigis/ag000_0' + i + '.png';
         }
 
         // WalkForwards - WalkBackwards animation holders
         for (var i = 0; i < 12; i++) {
             if (i < 10) {
                 this.forwards[i] = new Image();
-                this.forwards[i].src = '../../../assets/Player/Aigis/ag030_0' + i + '.png';
+                this.forwards[i].src = 'assets/Player/Aigis/ag030_0' + i + '.png';
                 this.backwards[i] = new Image();
-                this.backwards[i].src = '../../../assets/Player/Aigis/ag031_0' + i + '.png';
+                this.backwards[i].src = 'assets/Player/Aigis/ag031_0' + i + '.png';
             }
             else {
                 this.forwards[i] = new Image();
-                this.forwards[i].src = '../../../assets/Player/Aigis/ag030_' + i + '.png';
+                this.forwards[i].src = 'assets/Player/Aigis/ag030_' + i + '.png';
                 this.backwards[i] = new Image();
-                this.backwards[i].src = '../../../assets/Player/Aigis/ag031_' + i + '.png';
+                this.backwards[i].src = 'assets/Player/Aigis/ag031_' + i + '.png';
             }
         }
 
         // JumpUp - JumpBackwards animation holders
         for (var i = 0; i < 9; i++) {
             this.jumpup[i] = new Image();
-            this.jumpup[i].src = '../../../assets/Player/Aigis/ag020_0' + i + '.png';
+            this.jumpup[i].src = 'assets/Player/Aigis/ag020_0' + i + '.png';
             this.jumpbackwards[i] = new Image();
-            this.jumpbackwards[i].src = '../../../assets/Player/Aigis/ag207_0' + i + '.png';
+            this.jumpbackwards[i].src = 'assets/Player/Aigis/ag207_0' + i + '.png';
         }
 
         // JumpForwards animation holders
         for (var i = 0; i < 13; i++) {
             if (i < 10) {
                 this.jumpforwards[i] = new Image();
-                this.jumpforwards[i].src = '../../../assets/Player/Aigis/ag202_0' + i + '.png';
+                this.jumpforwards[i].src = 'assets/Player/Aigis/ag202_0' + i + '.png';
             }
             else {
                 this.jumpforwards[i] = new Image();
-                this.jumpforwards[i].src = '../../../assets/Player/Aigis/ag202_' + i + '.png';
+                this.jumpforwards[i].src = 'assets/Player/Aigis/ag202_' + i + '.png';
             }
         }
 
         // JumpFirst/Last animation holders
         this.jumpstart = new Image();
-        this.jumpstart.src = '../../../assets/Player/Aigis/ag025_02.png';
+        this.jumpstart.src = 'assets/Player/Aigis/ag025_02.png';
 
         // Crouch animation holders
         for (var i = 0; i < 11; i++) {
             if (i < 10) {
                 this.crouch[i] = new Image();
-                this.crouch[i].src = '../../../assets/Player/Aigis/ag010_0' + i + '.png';
+                this.crouch[i].src = 'assets/Player/Aigis/ag010_0' + i + '.png';
             }
             else {
                 this.crouch[i] = new Image();
-                this.crouch[i].src = '../../../assets/Player/Aigis/ag010_' + i + '.png';
+                this.crouch[i].src = 'assets/Player/Aigis/ag010_' + i + '.png';
             }
         }
 
         // IdleTurn - CrouchTurn animation holders
         for (var i = 0; i < 3; i++) {
             this.idleturn[i] = new Image();
-            this.idleturn[i].src = '../../../assets/Player/Aigis/ag003_0' + i + '.png';
+            this.idleturn[i].src = 'assets/Player/Aigis/ag003_0' + i + '.png';
             this.crouchturn[i] = new Image();
-            this.crouchturn[i].src = '../../../assets/Player/Aigis/ag013_0' + i + '.png';
+            this.crouchturn[i].src = 'assets/Player/Aigis/ag013_0' + i + '.png';
         }
 
 

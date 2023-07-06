@@ -7,7 +7,7 @@ export class Kanji extends Fighter {
 
         // First frame
         this.image = document.createElement('img');
-        this.image.src = "../../../assets/Player/Kanji/ka000_00.png";
+        this.image.src = "assets/Player/Kanji/ka000_00.png";
 
         this.idle = [];
         this.forwards = [];
@@ -24,53 +24,53 @@ export class Kanji extends Fighter {
         for (var i = 0; i < 12; i++) {
             if (i < 10) {
                 this.idle[i] = new Image();
-                this.idle[i].src = '../../../assets/Player/Kanji/ka000_0' + i + '.png';
+                this.idle[i].src = 'assets/Player/Kanji/ka000_0' + i + '.png';
                 this.forwards[i] = new Image();
-                this.forwards[i].src = '../../../assets/Player/Kanji/ka030_0' + i + '.png';
+                this.forwards[i].src = 'assets/Player/Kanji/ka030_0' + i + '.png';
                 this.backwards[i] = new Image();
-                this.backwards[i].src = '../../../assets/Player/Kanji/ka031_0' + i + '.png';
+                this.backwards[i].src = 'assets/Player/Kanji/ka031_0' + i + '.png';
             }
             else {
                 this.idle[i] = new Image();
-                this.idle[i].src = '../../../assets/Player/Kanji/ka000_' + i + '.png';
+                this.idle[i].src = 'assets/Player/Kanji/ka000_' + i + '.png';
                 this.forwards[i] = new Image();
-                this.forwards[i].src = '../../../assets/Player/Kanji/ka030_' + i + '.png';
+                this.forwards[i].src = 'assets/Player/Kanji/ka030_' + i + '.png';
                 this.backwards[i] = new Image();
-                this.backwards[i].src = '../../../assets/Player/Kanji/ka031_' + i + '.png';
+                this.backwards[i].src = 'assets/Player/Kanji/ka031_' + i + '.png';
             }
         }
 
         // JumpUp animation holders
         for (var i = 0; i < 9; i++) {
             this.jumpup[i] = new Image();
-            this.jumpup[i].src = '../../../assets/Player/Kanji/ka020_0' + i + '.png';
+            this.jumpup[i].src = 'assets/Player/Kanji/ka020_0' + i + '.png';
         }
 
         // JumpForwards - JumpBackwards - IdleTurn - CrouchTurn animation holders
         for (var i = 0; i < 3; i++) {
             this.jumpforwards[i] = new Image();
-            this.jumpforwards[i].src = '../../../assets/Player/Kanji/ka123_0' + i + '.png';
+            this.jumpforwards[i].src = 'assets/Player/Kanji/ka123_0' + i + '.png';
             this.jumpbackwards[i] = new Image();
-            this.jumpbackwards[i].src = '../../../assets/Player/Kanji/ka112_0' + (i+3) + '.png';
+            this.jumpbackwards[i].src = 'assets/Player/Kanji/ka112_0' + (i+3) + '.png';
             this.idleturn[i] = new Image();
-            this.idleturn[i].src = '../../../assets/Player/Kanji/ka003_0' + i + '.png';
+            this.idleturn[i].src = 'assets/Player/Kanji/ka003_0' + i + '.png';
             this.crouchturn[i] = new Image();
-            this.crouchturn[i].src = '../../../assets/Player/Kanji/ka013_0' + i + '.png';
+            this.crouchturn[i].src = 'assets/Player/Kanji/ka013_0' + i + '.png';
         }
 
         // Forwards animation holders
         this.jumpstart = new Image();
-        this.jumpstart.src = '../../../assets/Player/Kanji/ka025_02.png';
+        this.jumpstart.src = 'assets/Player/Kanji/ka025_02.png';
 
         // Forwards animation holders
         for (var i = 0; i < 14; i++) {
             if (i < 10) {
                 this.crouch[i] = new Image();
-                this.crouch[i].src = '../../../assets/Player/Kanji/ka010_0' + i + '.png';
+                this.crouch[i].src = 'assets/Player/Kanji/ka010_0' + i + '.png';
             }
             else {  
                 this.crouch[i] = new Image();
-                this.crouch[i].src = '../../../assets/Player/Kanji/ka010_' + i + '.png';
+                this.crouch[i].src = 'assets/Player/Kanji/ka010_' + i + '.png';
             }
         }
 
