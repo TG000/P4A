@@ -3,7 +3,7 @@ import { STAGE_FLOOR } from "../../constants/stage.js";
 export class Shadow {
     constructor(fighter) {
         this.image = document.createElement('img');
-        this.image.src = "../../../assets/Player/shadow.png";
+        this.image.src = "assets/Player/shadow.png";
         this.fighter = fighter;
         this.frame = [[0, 0, 528, 64], [264, 70]];
     }
