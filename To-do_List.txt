@@ -6,10 +6,10 @@
 [ ✔ ] Player movement                   ---->  Flickering image [ Fixed ✔ ]
 [ ✔ ] Player control input              ---->  Input overlaying [ Fixed ✔ ]
 
-[ ✔ ] Animation
-[  ] Box collision
+[ ✔ ] Animation                         ----> Idle, forwards, backwards, jump, crouch, turn
+[ ✔ ] Box collision                     ---->  Fixing outstage sprites, adding collision pushing
 [  ] Attact / hurt state
 
-[  ] GUI
+[ ✔ ] HUD
 [  ] Music & Sound Effects
 [  ] Combo Skills

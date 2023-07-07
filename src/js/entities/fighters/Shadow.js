@@ -18,7 +18,7 @@ export class Shadow {
             [originX, originY]
         ] = this.frame;
 
-        const scale = 0.55 - (STAGE_FLOOR - this.fighter.position.y) / 550;
+        const scale = 0.55 - (STAGE_FLOOR - this.fighter.position.y) / 950;
 
         context.globalAlpha = 0.4;
         context.drawImage(
